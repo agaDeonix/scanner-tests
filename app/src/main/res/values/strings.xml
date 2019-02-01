@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ScannerTest</string>
+    <string name="app_name_firebase">Firebase ML</string>
+    <string name="take_photo">Сделайте фото</string>
+</resources>

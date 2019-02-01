@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "223822254467",
+    "firebase_url": "https://docsscanner-eba85.firebaseio.com",
+    "project_id": "docsscanner-eba85",
+    "storage_bucket": "docsscanner-eba85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223822254467:android:879d7cd771c907e2",
+        "android_client_info": {
+          "package_name": "com.pinkunicorp.docsscanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223822254467-4gpnaha1ah9ebnp2rs34rfcpjjj49p6f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4hcAGW_ga-rlNl5G8TEm3JutFNBhKIv0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223822254467:android:813a24dd607271fb",
+        "android_client_info": {
+          "package_name": "com.pinkunicorp.scannertest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223822254467-4gpnaha1ah9ebnp2rs34rfcpjjj49p6f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4hcAGW_ga-rlNl5G8TEm3JutFNBhKIv0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
