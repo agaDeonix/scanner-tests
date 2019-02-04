@@ -11,6 +11,10 @@ import org.opencv.android.OpenCVLoader
 import android.view.SurfaceView
 import org.opencv.android.CameraBridgeViewBase
 import android.view.WindowManager
+import org.opencv.imgproc.Imgproc
+import org.opencv.core.Core
+
+
 
 
 
@@ -39,8 +43,8 @@ class MainActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
     public override fun onResume() {
         super.onResume()
         OpenCVLoader.initDebug()
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), MY_PERMISSIONS_REQUEST_CAMERA);
+        if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), MY_PERMISSIONS_REQUEST_CAMERA)
         } else {
             initOpenCvCamera()
         }
@@ -77,7 +81,7 @@ class MainActivity : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
     companion object {
         private const val MY_PERMISSIONS_REQUEST_CAMERA = 50
         init {
-            System.loadLibrary("opencv_java");
+            System.loadLibrary("opencv_java3")
         }
     }
 }

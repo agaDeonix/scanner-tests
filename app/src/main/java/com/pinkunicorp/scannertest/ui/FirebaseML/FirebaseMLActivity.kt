@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -11,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import kotlinx.android.synthetic.main.activity_firebase_ml.*
+import com.pinkunicorp.scannertest.filter.ContourFilter
+import com.pinkunicorp.scannertest.filter.GaussianFilter
+import com.pinkunicorp.scannertest.filter.GrayscaleFilter
 import com.pinkunicorp.scannertest.filter.util.AndroidUtils
-import android.R.attr.src
-import android.R.attr.bitmap
-import com.pinkunicorp.scannertest.filter.*
+import kotlinx.android.synthetic.main.activity_firebase_ml.*
 
 
 class FirebaseMLActivity : AppCompatActivity() {
@@ -29,25 +30,41 @@ class FirebaseMLActivity : AppCompatActivity() {
         btnTakePhoto?.setOnClickListener {
             btnTakePhoto?.visibility = View.GONE
             layoutWait.visibility = View.VISIBLE
-            camera?.captureImage { cameraKitView, bytes ->
-                var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                bitmap = applyFilters(bitmap)
-                getCardDetails(bitmap)
+            camera?.captureImage {
+                applyFilters(it.bitmap)?.let { bitmap ->
+                    getCardDetails(bitmap)
+                }
+//                getCardDetails(it.bitmap)
             }
+//            camera?.captureImage { cameraKitView, bytes ->
+//                var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+//                bitmap = applyFilters(bitmap)
+//                getCardDetails(bitmap)
+//            }
         }
         layoutWait?.visibility = View.GONE
         btnTakePhoto?.visibility = View.VISIBLE
         layoutPhoto?.visibility = View.GONE
     }
 
-    private fun applyFilters(bitmap: Bitmap?): Bitmap? {
-        val width = bitmap?.width ?: 0
-        val height = bitmap?.height ?: 0
+    private fun applyFilters(bitmap: Bitmap): Bitmap? {
+        val width = bitmap.width
+        val height = bitmap.height
         var src = AndroidUtils.bitmapToIntArray(bitmap)
+
+        GaussianFilter().apply {
+            radius = 5f
+            src = filter(src, width, height)
+        }
 
         GrayscaleFilter().apply {
             src = filter(src, width, height)
         }
+
+        ContourFilter().apply {
+            src = filter(src, width, height)
+        }
+
 //        InvertFilter().apply {
 //            src = filter(src, width, height)
 //        }
@@ -58,8 +75,12 @@ class FirebaseMLActivity : AppCompatActivity() {
 
     @SuppressLint("RestrictedApi")
     private fun getCardDetails(bitmap: Bitmap) {
+        runOnUiThread {
+            layoutPhoto?.visibility = View.VISIBLE
+            ivPhoto?.setImageBitmap(bitmap)
+        }
         val image = FirebaseVisionImage.fromBitmap(bitmap)
-        val firebaseVisionTextDetector = FirebaseVision.getInstance().cloudTextRecognizer
+        val firebaseVisionTextDetector = FirebaseVision.getInstance().onDeviceTextRecognizer
         tvCardInfo.text = ""
         firebaseVisionTextDetector.processImage(image)
             .addOnSuccessListener {
@@ -81,45 +102,50 @@ class FirebaseMLActivity : AppCompatActivity() {
                     }
 
                 }
-                layoutPhoto?.visibility = View.VISIBLE
-                ivPhoto?.setImageBitmap(bitmap)
                 layoutWait?.visibility = View.GONE
             }
             .addOnFailureListener {
                 layoutWait?.visibility = View.GONE
                 btnTakePhoto?.visibility = View.VISIBLE
-                Toast.makeText(baseContext, "Sorry, something went wrong!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, "Sorry, something went wrong!", Toast.LENGTH_SHORT)
+                    .show()
             }
     }
 
-    override fun onStart() {
-        super.onStart()
-        camera?.onStart()
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        camera?.onStart()
+//    }
 
     override fun onResume() {
         super.onResume()
-        camera?.onResume()
+//        camera?.onResume()
+        camera?.start()
     }
 
     override fun onPause() {
-        camera?.onPause()
+//        camera?.onPause()
+        camera?.stop()
         super.onPause()
     }
 
-    override fun onStop() {
-        camera?.onStop()
-        super.onStop()
-    }
+//    override fun onStop() {
+//        camera?.onStop()
+//        super.onStop()
+//    }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        camera?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        camera?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     @SuppressLint("RestrictedApi")
     override fun onBackPressed() {
-        if (layoutPhoto?.visibility == View.VISIBLE){
+        if (layoutPhoto?.visibility == View.VISIBLE) {
             layoutPhoto?.visibility = View.GONE
             btnTakePhoto?.visibility = View.VISIBLE
         } else {

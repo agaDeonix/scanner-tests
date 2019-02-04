@@ -8,6 +8,7 @@
             android:layout_height="fill_parent"
             android:visibility="gone"
             android:id="@+id/view"
-            openCV:camera_id="back"/>
+            openCV:camera_id="back"
+        />
 
 </FrameLayout>

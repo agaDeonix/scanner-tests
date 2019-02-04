@@ -8,16 +8,17 @@
 
 
 
-    <com.camerakit.CameraKitView
+    <com.wonderkiln.camerakit.CameraView
         android:id="@+id/camera"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:keepScreenOn="true"
-        app:camera_facing="back"
-        app:camera_flash="auto"
-        app:camera_focus="continuous"
-        app:camera_permissions="camera"
+        app:ckMethod="still"
+        app:ckFacing="back"
+        app:ckFlash="auto"
+        app:ckFocus="continuous"
+        app:ckPermissions="strict"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
